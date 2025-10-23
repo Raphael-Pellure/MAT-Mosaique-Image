@@ -1,0 +1,39 @@
+A = [1 2 3; 1 2 3];
+% gradient suivant les lignes
+G = gradient(A);
+% gradiant suivant les colonnes
+G = gradient(A');
+
+% Définir une matrice A
+A = [1, 2, 3; 4, 5, 6; 7, 8, 9];
+M = [A A; A A]
+
+% Calculer le gradient
+[FX, FY] = gradient(A);
+
+% Afficher les résultats
+disp('Gradient le long des colonnes (FX) :');
+disp(FX);
+disp('Gradient le long des lignes (FY) :');
+disp(FY);
+
+R = det(M) - 3*(trace(M)^2);
+
+%% 
+n2= 2;
+l =10;
+c = 10; % Define the number of columns
+R=zeros(l,c);
+
+R(1:n2, :) = -inf; % Set border values to negative infinity
+R(:, 1:n2) = -inf; 
+
+R((l-n2+1):l, :) = -inf; 
+R(:, (c-n2+1):c) = -inf;
+
+disp(R);
+
+ind2sub(3, [1 2 3; 1 2 3])
+
+%% 
+A = [ 1 ]
