@@ -25,7 +25,7 @@ xy1_h = [xy1(:,1) xy1(:,2) ones(NbPoints,1)];
 % Application de l'homographie
 % ... A completer ...
 
-xy2_z =  xy1_h * H;
+xy2_z =  xy1_h * H; % Pas sur de ça
 
 
 % On retourne les coordonnees homogenes (x,y,1)
