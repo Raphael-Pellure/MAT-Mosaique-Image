@@ -20,22 +20,20 @@ NbPoints = length(xy1(:,1));
 % Construction des coordonnees homogenes pour appliquer l'homographie
 % ... A completer ...
 
-xy1_h = [xy1(:,1) xy1(:,2) ones(NbPoints,1)];
+xy1_h = [xy1, ones(NbPoints,1)].' ;
 
 % Application de l'homographie
 % ... A completer ...
 
-xy2_z =  xy1_h * H; % Pas sur de ça
-
+xy2_z =  H * xy1_h ; 
 
 % On retourne les coordonnees homogenes (x,y,1)
 % Pour cela, il faut diviser par z
 % Attention il ne faut garder que les deux premieres coordonnees
 % ... A completer ...
-for i=1:NbPoints
 
-    xy2_h(i,:) = xy2_z(i,:) / xy2_z(i,3);
+Z = xy2_z(3, :);
+X = xy2_z(1, :) ./ Z;
+Y = xy2_z(2, :) ./ Z;
 
-end
-
-xy2 = xy2_h(:,1:2);
+xy2 = [X.', Y.'];
