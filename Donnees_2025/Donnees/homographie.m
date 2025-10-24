@@ -32,19 +32,38 @@ function [H] = homographie(XY_C1,XY_C2)
 
 % Stocker dans une variable le nombre de points apparies
 % ... A completer ...
-NbPoints_apparies = length(XY_C1);
+NbPoints_apparies = length(XY_C1(:,1));
 
 % Construction des matrices/vecteurs utiles pour construire la matrice A
 % NE PAS UTILISER DE BOUCLE FORT
 % ... A completer ...
+
+
 A = zeros(NbPoints_apparies*2,9);
+
+% //////////////////////////////// changer boucle
 % a faire sans for mais jsp comment
-for i = 1:NbPoints_apparies
+%for i = 1:NbPoints_apparies
 
-    A(2*i - 1,:) = [ XY_C1(i,1) XY_C1(i,2) 1 0          0          0 -XY_C1(i,1)*XY_C2(i,1) -XY_C1(i,2)*XY_C2(i,1) -XY_C2(i,1) ];
-    A(2*i,:) =     [ 0          0          0 XY_C1(i,1) XY_C1(i,2) 1 -XY_C1(i,1)*XY_C2(i,2) -XY_C1(i,2)*XY_C2(i,2) -XY_C2(i,2)];
+    %A(2*i - 1,:) = [ XY_C1(i,1) XY_C1(i,2) 1 0          0          0 -XY_C1(i,1)*XY_C2(i,1) -XY_C1(i,2)*XY_C2(i,1) -XY_C2(i,1) ];
+    %A(2*i,:) =     [ 0          0          0 XY_C1(i,1) XY_C1(i,2) 1 -XY_C1(i,1)*XY_C2(i,2) -XY_C1(i,2)*XY_C2(i,2) -XY_C2(i,2)];
 
-end
+%end
+% //////////////////////////////////
+
+% Sépare les coordonnées
+x  = XY_C1(:,1);  y  = XY_C1(:,2);
+xp = XY_C2(:,1);  yp = XY_C2(:,2);
+
+% Lignes impaires (équation pour x')
+A(1:2:end, 1:3) = [x, y, ones(NbPoints_apparies,1)];
+A(1:2:end, 7:9) = [-x.*xp, -y.*xp, -xp];
+
+% Lignes paires (équation pour y')
+A(2:2:end, 4:6) = [x, y, ones(NbPoints_apparies,1)];
+A(2:2:end, 7:9) = [-x.*yp, -y.*yp, -yp];
+
+
 
 % Estimation des parametres de H par decomposition en valeurs singulieres
 % Utiliser la fonction matlab svd : 
@@ -53,7 +72,7 @@ end
 
 [U,S,V] = svd ( A' * A );
 
-H = V(:,length(V));
+H = V(:, end);
 
 
 % Former la matrice H de taille 3x3
