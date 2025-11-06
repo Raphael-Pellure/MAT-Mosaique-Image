@@ -1,17 +1,11 @@
-% Calcul d'une mosaique d'image à partir de 2 images : I1 et I2
-% connaissant l'homographie H entre les 2. 
-% L'image resultat est stockee dans Res. 
-% On choisit de projeter I2 dans I1 pour construire la mosaique. 
-% Attention !!!
-% On suppose un axe de rotation parallèle aux colonnes. 
-% C'est la raison pour laquelle on inverse les lignes et les colonnes 
-% dans la reconstruction de la mosaique. 
 
-function [Imos] = mosaiquebis(I1,I2,H)
+
+function [Imos] = mosaiquecoul(I1,I2,H)
+
 
 % On recupere la taille des deux images. 
-[nblI1 nbcI1] = size(I1);
-[nblI2 nbcI2] = size(I2);
+[nblI1 nbcI1, nbchanelI1] = size(I1);
+[nblI2 nbcI2, nbchanelI2] = size(I2);
 
 % On calcule l'homographie inverse, normalisee, 
 % pour nous permettre d'effectuer la transformation de I2 vers I1. 
@@ -57,7 +51,7 @@ ymax=ceil(ymax);
 nblImos=ymax-ymin+1;
 nbcImos=xmax-xmin+1;
 
-Imos=zeros(nblImos,nbcImos);
+Imos=zeros(nblImos,nbcImos,nbchanelI1);
 
 % Calcul de l'origine de l'image I1 dans le repere de la mosaique Imos. 
 O1x_Rmos = 1-(xmin-1);
@@ -65,7 +59,7 @@ O1y_Rmos = 1-(ymin-1);
 
 % Copie de l'image I1. 
 % Lignes et colonnes sont inversees. 
-Imos(O1y_Rmos:O1y_Rmos+nblI1-1, O1x_Rmos:O1x_Rmos+nbcI1-1) = I1;
+Imos(O1y_Rmos:O1y_Rmos+nblI1-1, O1x_Rmos:O1x_Rmos+nbcI1-1, :) = I1;
 
 % Copie de l'image I2 transformee par l'homographie H. 
 for x=1:nbcImos,
@@ -90,8 +84,8 @@ for x=1:nbcImos,
 
     if inI1 && inI2
         % Valeurs
-        v1 = I1(y_R1, x_R1, :);
-        v2 = I2(y_R2, x_R2, :);
+        v1 = I1(y_R1, x_R1);
+        v2 = I2(y_R2, x_R2);
 
         % Poids colonnes 
         d1 = nbcI1 - x_R1;
@@ -100,11 +94,11 @@ for x=1:nbcImos,
         % p1, p2
         S  = d1 + d2;
         if S <= 0
-            Imos(y,x, :) = v2;   % (cas limite)
+            Imos(y,x,:) = v2;   % (cas limite)
         else
             p1 = d1 / S;
             p2 = d2 / S;
-            Imos(y,x, :) = p1*v1 + p2*v2;
+            Imos(y,x,:) = p1*v1 + p2*v2;
         end
 
     elseif inI2
@@ -113,5 +107,6 @@ for x=1:nbcImos,
 
     end
   end
- end
+end
+disp(size(Imos))
 end

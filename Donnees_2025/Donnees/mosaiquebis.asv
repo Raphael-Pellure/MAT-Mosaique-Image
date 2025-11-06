@@ -100,11 +100,11 @@ for x=1:nbcImos,
         % p1, p2
         S  = d1 + d2;
         if S <= 0
-            Imos(y,x, :) = v2;   % (cas limite)
+            Imos(y,x) = v2;   % (cas limite)
         else
             p1 = d1 / S;
             p2 = d2 / S;
-            Imos(y,x, :) = p1*v1 + p2*v2;
+            Imos(y,x) = p1*v1 + p2*v2;
         end
 
     elseif inI2
