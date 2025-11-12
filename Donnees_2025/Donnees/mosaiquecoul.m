@@ -84,8 +84,8 @@ for x=1:nbcImos,
 
     if inI1 && inI2
         % Valeurs
-        v1 = I1(y_R1, x_R1);
-        v2 = I2(y_R2, x_R2);
+        v1 = I1(y_R1, x_R1, :);
+        v2 = I2(y_R2, x_R2, :);
 
         % Poids colonnes 
         d1 = nbcI1 - x_R1;
@@ -103,7 +103,7 @@ for x=1:nbcImos,
 
     elseif inI2
         % Seulement I2 défini
-        Imos(y,x) = I2(y_R2, x_R2);
+        Imos(y,x,:) = I2(y_R2, x_R2,:);
 
     end
   end
