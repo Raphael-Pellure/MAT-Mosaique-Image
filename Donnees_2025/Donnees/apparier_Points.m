@@ -121,5 +121,3 @@ cor = num ./ (denom * NbPix + eps);
 
 % Affectation a la matrice C
 C(indptI1(i1)+(indptI2(i2)-1)*nptI1) = cor';
-
-

@@ -37,6 +37,17 @@ for p = 1:npt
     voisins(p,:) = reshape(patch, 1, []);  
 end
 
+%% --- VOISINAGE: extraction des patchs pour la corrélation ---
+% Objectif: pour chaque point (x,y), retourner le patch vectorisé KxK centré en (x,y).
+% Entrées: I (2D), xyPts (N x 2), K (impair)
+% Sortie: voisins (N x K^2)
+% Étapes:
+% - Définir r = (K-1)/2; gérer les bords (ignorer ou padarray).
+% - Pour i=1..N: extraire I(y-r:y+r, x-r:x+r), vectoriser par colonnes, sauver ligne i.
+% Astuces:
+% - Utiliser 'replicate' au padding pour robustesse bord.
+% - Vérifier que (x,y) respecte l'ordre [col, ligne] si tes points sont (x,y) ou (col,row).
+% - Accélération possible: préallouer voisins avec zeros(N,K*K).
 
 
     

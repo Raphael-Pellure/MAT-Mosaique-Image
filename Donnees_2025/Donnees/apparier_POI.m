@@ -32,7 +32,8 @@ ind2_1 = ind2_1(:);
 ii   = (1:NbPoints)';              
 jstar= ind1_2;                     
 keep = (maxI1(:) >= seuil) & (jstar>=1) & (jstar<=size(C,2)) & (ind2_1(jstar) == ii);    % symétrie: meilleur de j revient sur i
-ind1 = find(keep);         
+ind1 = find(keep);
+length(ind1)
 
 % Cette deuxieme doit etre gardee telle quelle
 ind2 = ind1_2(ind1);
@@ -50,4 +51,3 @@ affichage_appariement(Im2,mesurex2,mesurey2,'Points d''interet correspondants Im
 XY_C1 = [mesurex1(:) mesurey1(:)];
 XY_C2 = [mesurex2(:) mesurey2(:)];
 end
-

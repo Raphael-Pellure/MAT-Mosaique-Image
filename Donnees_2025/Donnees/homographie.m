@@ -78,4 +78,3 @@ H = V(:, end);
 % Former la matrice H de taille 3x3
 % ... A completer ...
 H = reshape(H,3,3)';
-
