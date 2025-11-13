@@ -86,7 +86,7 @@ Imoscoul = mosaiquecoul(Im1_coul,Im2_coul,H);
 figure;
 affichage_image(uint8(Imoscoul),'Mosaique obtenue a partir des 2 images couleur initiales (version 2)',1,1,1);
 % SAUVEGARDE DE LA MOSAIQUE A DEUX IMAGES EN COULEUR VERSION 2
-imwrite(uint8(Imoscoul),'mosaique2_coul.pgm');
+imwrite(uint8(Imoscoul),'mosaique2_coul.jpg');
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Version 4 pour la reconstruction avec 3 images %  
@@ -105,28 +105,20 @@ H12 = homographie(XY_C1,XY_C2);
 
 H23 = homographie(XY_C2_23,XY_C3);
 
+Im1_coul = double(Im1_coul);
+Im2_coul = double(Im2_coul);
+Im3_coul = double(Im3_coul);
+
 Imos_21 = mosaiquecoul(Im2_coul,Im1_coul,inv(H12) );
 Imos_23 =  mosaiquecoul(Im2_coul,Im3_coul, H23 );
 
+% tentative de reconstruction de la mosaique à 3 images non concluante
 
-
-H21 = inv(H12); H21 = H21 ./ H21(3,3);
-
-
-Imos_123 = mosaiquecoul(Im2_coul, Im1_coul, H21);
-
-% tentative de reconstruction de la mosaique à 3 images
-Imos_123 = double(Imos_123);
-Im3_coul = double(Im3_coul);
-Imos_123 = mosaiquecoul(Imos_123, Im3_coul, H23);
-
-
-
+Imos_123 = mosaiquecoul(Imos_21, Im3_coul, H23);
 
 
 figure;
 affichage_image(uint8(Imos_21),'Mosaique 21',1,3,1);
 affichage_image(uint8(Imos_23),'Mosaique 23',1,3,2);
-
 affichage_image(uint8(Imos_123),'Mosaique 123',1,3,3);
 imwrite(uint8(Imos_123),'mosaique3_coul.jpg');
